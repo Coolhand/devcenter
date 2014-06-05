@@ -2,3 +2,9 @@ name: Project Name
 title: Baked with Awestruct
 org: Organization
 base_url: ''
+profiles:
+  production:
+    base_url: http://devcenter-niharvey.rhcloud.com/
+    deploy:
+      host: <%= ENV['OPENSHIFT_RUBY_IP'] %>
+      path: <%= ENV['OPENSHIFT_REPO_DIR'] %>
