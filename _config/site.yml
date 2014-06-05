@@ -7,4 +7,4 @@ profiles:
     base_url: http://devcenter-niharvey.rhcloud.com/
     deploy:
       host: <%= ENV['OPENSHIFT_RUBY_IP'] %>
-      path: <%= ENV['OPENSHIFT_REPO_DIR'] %>
+      path: <%= ENV['OPENSHIFT_REPO_DIR'] %>_site/
