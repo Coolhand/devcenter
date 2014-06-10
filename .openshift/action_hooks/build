@@ -11,7 +11,7 @@ mkdir -p ${OPENSHIFT_DATA_DIR}gems
 export GEM_HOME=${OPENSHIFT_DATA_DIR}gems 
 export GEM_PATH=${OPENSHIFT_DATA_DIR}gems
 
-bundle install --path= $GEM_PATH
+bundle install 
 
 echo "* Setting up environment"
 
@@ -22,7 +22,7 @@ then
 
   #echo "  * Check for new Awestruct version"
 
-  #gem update --no-ri --no-rdoc
+  gem update --no-ri --no-rdoc
 
 else
 
