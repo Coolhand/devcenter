@@ -1,0 +1,466 @@
+
+<p><img style="float:left;padding-right:15px;" src="https://www.openshift.com/sites/default/files/phone.jpg" width="400" height="275" alt="Getting started with JSR 356 API for WebSocket" title="Getting started with JSR 356 API for WebSocket" />
+It is a well known fact that <a href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP(Hypertext Transfer Protocol)</a> is a stateless request-response protocol. This simple design of the HTTP protocol makes it very scalable but inefficient and unsuitable for highly interactive real-time web applications. HTTP was designed for document sharing and not for building today's highly interactive web applications. HTTP is bit chatty in nature, as for each http request/response, a lot of headers need to be transmitted over the wire. </p>
+
+<p><strong>To learn how to use Wildfly with OpenShift please refer to my second post in this series <a href="https://www.openshift.com/blogs/deploy-websocket-web-applications-with-jboss-wildfly">https://www.openshift.com/blogs/deploy-websocket-web-applications-with-jboss-wildfly</a></strong></p>
+
+<p>Before the HTTP 1.1 version, every request made to the server resulted in a new connection. This was improved in HTTP 1.1 with the introduction of <a href="http://en.wikipedia.org/wiki/HTTP_persistent_connection">HTTP persistence connections</a>. Persistent connections allowed web browsers to reuse the same connection for fetching images, scripts, etc. </p>
+
+<p>HTTP was designed to be half-duplex which means it allows transmission of data in just one direction at a time. A Walkie-talkie is an example of a half duplex device because only one person can speak at a time.  Developers have created some workarounds or hacks to overcome this HTTP shortcoming. Some of these workarounds are polling, long polling, and <a href="http://ajaxpatterns.org/HTTP_Streaming">streaming</a>. </p>
+
+<p>With polling, the client makes synchronous calls to get information from the server. If the server has new information available it will send back data in the response. Otherwise, no information will be sent to the client and the client will again make a new connection after sometime. This is very inefficient but a very simple way to achieve real-time behavior. Long polling is another workaround in which the client will make a connection to the server and the server will hold the connection until data is available or a designated timeout is achieved. Long polling is also known as comet. Because of the mismatch between synchronous HTTP and these asynchronous applications, it tends to be complicated, non-standard and inefficient.</p>
+
+<p>Over time, the need for a standards-based, bidirectional and full-duplex channel between clients and a server have increased. In this blog, we will look at how WebSockets can help address these problems and then learn how to use JSR 356 API to build WebSocket based applications in Java. </p>
+
+<p><strong>Please note that this blog will not talk about OpenShift WebSocket support. If you want to learn about OpenShift WebSocket support, please refer to <a href="https://www.openshift.com/blogs/paas-websockets">this blog</a> by <a href="https://twitter.com/marek_jelen">Marek Jelen</a>.</strong></p>
+
+<h2 id="what-is-a-websocket">What is a WebSocket?</h2>
+
+<p>A WebSocket is asynchronous, bidirectional, full-duplex messaging implementation over a single TCP connection. WebSockets are not a HTTP connection , but use HTTP to bootstrap a WebSocket connection. A full-duplex system allows communication in both directions simultaneously. Land-line telephones are an example of a full-duplex device, since they allow both callers to speak and be heard at the same time. It was initially proposed as part of the HTML5 specification which promises to bring ease of development and network efficiency to modern, interactive web applications, but was later moved to a separate standards document to keep the specification focused only on WebSockets. It consists of two things – the WebSocket protocol specification i.e. <a href="http://tools.ietf.org/html/rfc6455">RFC 6455</a> which was published in December 2011 and <a href="http://www.w3.org/TR/2011/WD-websockets-20110419/">WebSocket JavaScript API</a>.</p>
+
+<p>The WebSocket protocol leverages the <a href="http://en.wikipedia.org/wiki/HTTP/1.1_Upgrade_header">HTTP upgrade header</a> to upgrade an HTTP connection to a WebSocket connection. HTML5 WebSockets address many problems that make HTTP unsuitable for real time applications and make application architecture simple by avoiding complex workarounds.</p>
+
+<p>WebSockets are supported by all the latest browsers as shown below in an image. The information is taken from http://caniuse.com/#feat=websockets.</p>
+
+<p><img src="https://www.openshift.com/sites/default/files/images/WebSockets-support-in-browsers.png" alt="WebSocket browser support" width="750" height="500" /></p>
+
+<h2 id="how-does-a-websocket-work">How Does a WebSocket Work?</h2>
+
+<p>Every WebSocket connection begins its life as an HTTP request. The HTTP request is much like another request, except that it has an <a href="http://en.wikipedia.org/wiki/HTTP/1.1_Upgrade_header">Upgrade header</a>. The Upgrade header indicates that a client would like to upgrade the connection to different protocol. For WebSockets it will upgrade to the WebSocket protocol. The WebSocket connection is established by upgrading from HTTP protocol to the WebSockets protocol during the initial handshake between the client and server over the same underlying connection. Once the WebSocket connection is established, messages can be sent back and forth between the client and server. </p>
+
+<h2 id="efficiency-simplicity-and-less-bandwidth-with-websockets">Efficiency, Simplicity and Less Bandwidth with WebSockets</h2>
+
+<ol>
+  <li>
+    <p>WebSockets are more efficient and performant than other workarounds like polling. They require less bandwidth and reduce latency.</p>
+  </li>
+  <li>
+    <p>WebSockets simplify real-time application architectures.</p>
+  </li>
+  <li>
+    <p>WebSockets do not require headers to send messages between peers. This considerably lowers the required bandwidth.</p>
+  </li>
+</ol>
+
+<h2 id="websocket-use-cases">WebSocket Use Cases</h2>
+
+<p>Some of the possible use-cases of WebSockets are :</p>
+
+<ul>
+  <li>Chat applications</li>
+  <li>Multiplayer games</li>
+  <li>Stock trading or financial applications</li>
+  <li>Collaborative document editing</li>
+  <li>Social networking applications</li>
+</ul>
+
+<h2 id="working-with-websockets-in-java">Working with WebSockets in Java</h2>
+
+<p>As it normally happens in the Java community, different vendors or developers write libraries to use a technology and then after sometime when the technology matures, it is standardized so that developers can interoperate between different implementations without the danger of vendor lock in. There were more than 20 different Java WebSocket implementations when JSR 356 was started. Most of them had  different APIs. <a href="http://jcp.org/en/jsr/detail?id=356">JSR 356</a> is an effort to standardize a WebSocket API for Java. Developers can use JSR 356 API for creating WebSocket applications independent of the implementation. The WebSocket API is purely event driven.</p>
+
+<h3 id="jsr-356----java-api-for-websockets">JSR 356 – Java API for WebSockets</h3>
+
+<p><a href="http://jcp.org/en/jsr/detail?id=356">JSR 356</a>, Java API for WebSocket, specifies Java API that developers can use to integrate WebSockets into their applications — both on the server side as well as on the Java client side. JSR 356 is part of the upcoming Java EE 7 standard. This means all Java EE 7 compliant application servers will have an implementation of the WebSocket protocol that adheres to the JSR 356 standard. Developers can also use JSR 356 outside Java EE 7 application server as well. Current development version of Apache Tomcat 8 will be adding WebSocket support based on JSR 356 API. </p>
+
+<p>A Java client can use JSR 356 compliant client implementation to connect to a WebSocket server. For web clients, developers can use WebSocket JavaScript API to communicate with WebSocket server. The difference between a WebSocket client and a WebSocket server lies only in the means by which the two are connected. A WebSocket client is a WebSocket endpoint that initiates a connection to a peer. And a WebSocket server is a WebSocket endpoint that is published and awaits connections from peers. There are callback listeners on both sides – clients and server – onOpen , onMessage , onError, onClose. We will look at these in more detail when we will build an application.</p>
+
+<h3 id="tyrus----jsr-356-reference-implementation">Tyrus – JSR 356 Reference Implementation</h3>
+
+<p><a href="https://tyrus.java.net/">Tyrus</a> is the reference implementation for JSR 356. We will be using Tyrus in standalone mode to develop a simple application in the next section. All Tyrus components are built using Java SE 7 compiler. It means, you will also need at least Java SE 7 to be able to compile and run this example application. It can't be used with Apache Tomcat 7 because it depends on servlet 3.1 specification upgrade. </p>
+
+<h2 id="developing-a-wordgame-using-websockets">Developing a WordGame Using WebSockets</h2>
+
+<p>Now we will build a very simple word game. The user will get a scrambled word and he/she has to unscramble it. We will use a single WebSocket connection per game.</p>
+
+<p><strong>Source code of this application is available on github https://github.com/shekhargulati/wordgame</strong></p>
+
+<h3 id="step-1--create-a-template-maven-project">Step 1 : Create a Template Maven Project</h3>
+
+<p>We will start by creating a template Java project using Maven archetype. Execute the command shown below to create Maven based Java project. </p>
+
+<p><code>
+$ mvn archetype:generate -DgroupId=com.shekhar -DartifactId=wordgame -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+</code></p>
+
+<h3 id="step-2--update-pomxml-with-required-dependencies">Step 2 : Update pom.xml with Required Dependencies</h3>
+
+<p>As mentioned in previous section, you need Java SE 7 to build applications using Tyrus. To use Java 7 in your maven project , add the maven compiler plugin with configuration to use Java 7 as mentioned below.</p>
+
+<p><code></code></p>
+<build>
+	<plugins>
+		<plugin>
+			<groupid>org.apache.maven.plugins</groupid>
+			<artifactid>maven-compiler-plugin</artifactid>
+			<version>3.1</version>
+			<configuration>
+				<compilerversion>1.7</compilerversion>
+				<source />1.7
+				<target>1.7</target>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+<p>&lt;/code&gt;</p>
+
+<p>Next, add the dependency for JSR 356 API. The current version of javax.websocket-api is 1.0.</p>
+
+<p><code></code></p>
+<dependency>
+	<groupid>javax.websocket</groupid>
+	<artifactid>javax.websocket-api</artifactid>
+	<version>1.0</version>
+</dependency>
+<p>&lt;/code&gt;</p>
+
+<p>Then we will add Tyrus JSR 356 implementation related dependencies. The tyrus-server provides JSR 356 server side WebSocket API implementation and tyrus-client provides JSR356 client side WebSocket API implementation.
+<code></code></p>
+<dependency>
+	<groupid>org.glassfish.tyrus</groupid>
+	<artifactid>tyrus-server</artifactid>
+	<version>1.1</version>
+</dependency>
+<dependency>
+	<groupid>org.glassfish.tyrus</groupid>
+	<artifactid>tyrus-client</artifactid>
+	<version>1.1</version>
+</dependency>
+<p>&lt;/code&gt;
+Finally we will add the tyrus-container-grizzly dependency to our pom.xml. This will provide a standalone container to deploy WebSocket applications.</p>
+
+<p><code></code></p>
+<dependency>
+	<groupid>org.glassfish.tyrus</groupid>
+	<artifactid>tyrus-container-grizzly</artifactid>
+	<version>1.1</version>
+</dependency>
+<p>&lt;/code&gt;
+You can view the full pom.xml <a href="https://github.com/shekhargulati/wordgame/blob/master/pom.xml">here</a>.</p>
+
+<h3 id="step-3--write-the-first-jsr-356-websocket-server-endpoint">Step 3 : Write the First JSR 356 WebSocket Server Endpoint</h3>
+
+<p>Now that we have done setup for our project, we will start writing the WebSocket server endpoint. You can declare any Java POJO class WebSocket server endpoint by annotating it with @ServerEndpoint. Developers can also specify URI where endpoints will be deployed. The URI is relative to the root of WebSocket container and must begin with "/". In the code shown below, we have created a very simple WordgameServerEndpoint.</p>
+
+<p><code>
+package com.shekhar.wordgame.server;</code></p>
+
+<p>import java.io.IOException;
+import java.util.logging.Logger;</p>
+
+<p>import javax.websocket.CloseReason;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.CloseReason.CloseCodes;
+import javax.websocket.server.ServerEndpoint;</p>
+
+<p>@ServerEndpoint(value = "/game")
+public class WordgameServerEndpoint {</p>
+
+<pre><code>private Logger logger = Logger.getLogger(this.getClass().getName());
+
+@OnOpen
+public void onOpen(Session session) {
+    logger.info("Connected ... " + session.getId());
+}
+
+@OnMessage
+public String onMessage(String message, Session session) {
+    switch (message) {
+    case "quit":
+        try {
+            session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Game ended"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        break;
+    }
+    return message;
+}
+
+@OnClose
+public void onClose(Session session, CloseReason closeReason) {
+    logger.info(String.format("Session %s closed because of %s", session.getId(), closeReason));
+} } &lt;/code&gt;
+</code></pre>
+
+<p>The @OnOpen annotation is used to annotate a method which will be called after WebSocket connection is opened. Every connection has a session associated with it. In the code shown above, we printed the session id when onOpen() method is called. The method annotated with @OnOpen will be invoked only once per WebSocket connection.</p>
+
+<p>The @OnMessage annotation is used to annotate a method which will be called each time a message is received. This is the method where all the business code will be written. In the code shown above, we will close the connection when we receive "quit" message from client , else we will just return the message back to the client. So, a WebSocket connection will be open till we don't receive "quit" message.On receiving quit message we call the close method on session object giving it the reason for closing the session. In the code sample above, we say that it is a normal closure as game has ended.</p>
+
+<p>The @OnClose annotation is used to annotate a method which will be called when WebSocket connection is closed.</p>
+
+<h3 id="step-4--write-the-first-jsr-356-websocket-client-endpoint">Step 4 : Write the First JSR 356 WebSocket Client Endpoint</h3>
+
+<p>The @ClientEndpoint annotation is used to mark a POJO WebSocket client. Similar to javax.websocket.server.ServerEndpoint, POJOs that are annotated with @ClientEndpoint annotation can have methods that using the web socket method level annotations, are web socket lifecycle methods.</p>
+
+<p><code>
+package com.shekhar.wordgame.client;</code></p>
+
+<p>import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.CountDownLatch;
+import java.util.logging.Logger;</p>
+
+<p>import javax.websocket.ClientEndpoint;
+import javax.websocket.CloseReason;
+import javax.websocket.DeploymentException;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;</p>
+
+<p>import org.glassfish.tyrus.client.ClientManager;</p>
+
+<p>@ClientEndpoint
+public class WordgameClientEndpoint {</p>
+
+<pre><code>private Logger logger = Logger.getLogger(this.getClass().getName());
+
+@OnOpen
+public void onOpen(Session session) {
+    logger.info("Connected ... " + session.getId());
+    try {
+        session.getBasicRemote().sendText("start");
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+@OnMessage
+public String onMessage(String message, Session session) {
+    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+    try {
+        logger.info("Received ...." + message);
+        String userInput = bufferRead.readLine();
+        return userInput;
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+@OnClose
+public void onClose(Session session, CloseReason closeReason) {
+    logger.info(String.format("Session %s close because of %s", session.getId(), closeReason));
+}
+</code></pre>
+
+<p>}
+&lt;/code&gt;
+In the code shown above, we send a "start" message to the server when WebSocket connection is opened. The onMessage method annotated with @OnMessage is called each time a message is received from server. It first logs the message and then wait for user input. The user input is then sent to the server. Finally, onClose() method annotated with @OnClose annotation is called when WebSocket connection is closed. As you can see, the programming model for both client and server side code is same. This eases the development of writing WebSocket applications using JSR 356 API.</p>
+
+<h3 id="step-5-create-and-start-a-websocket-server">Step 5: Create and Start a WebSocket Server</h3>
+
+<p>We need a server to deploy our WebSocket @ServerEndpoint. The server is created using tyrus server API as shown below. The server will be running on port 8025. The WordgameServerEndpoint will be accessible at ws://localhost:8025/websockets/game.</p>
+
+<p><code>
+package com.shekhar.wordgame.server;</code></p>
+
+<p>import java.io.BufferedReader;
+import java.io.InputStreamReader;</p>
+
+<p>import org.glassfish.tyrus.server.Server;</p>
+
+<p>public class WebSocketServer {</p>
+
+<pre><code>public static void main(String[] args) {
+    runServer();
+}
+
+public static void runServer() {
+    Server server = new Server("localhost", 8025, "/websockets", WordgameServerEndpoint.class);
+
+    try {
+        server.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Please press a key to stop the server.");
+        reader.readLine();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    } finally {
+        server.stop();
+    }
+} }
+</code></pre>
+
+<p>&lt;/code&gt;
+If you are using Eclipse, then you can start the server by running it as a Java application(ALT+SHIFT+X,J). You will see logs as shown below.</p>
+
+<p><code>
+Jul 26, 2013 1:39:37 PM org.glassfish.tyrus.server.ServerContainerFactory create
+INFO: Provider class loaded: org.glassfish.tyrus.container.grizzly.GrizzlyEngine
+Jul 26, 2013 1:39:38 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [0.0.0.0:8025]
+Jul 26, 2013 1:39:38 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+Jul 26, 2013 1:39:38 PM org.glassfish.tyrus.server.Server start
+INFO: WebSocket Registered apps: URLs all start with ws://localhost:8025
+Jul 26, 2013 1:39:38 PM org.glassfish.tyrus.server.Server start
+INFO: WebSocket server started.
+Please press a key to stop the server.
+</code></p>
+
+<h3 id="step-6--start-the-websocket-client">Step 6 : Start the WebSocket Client</h3>
+
+<p>Now that server is started and WebSocket @ServerEndpoint is deployed, we will start the client as a Java application. We will create an instance of ClientManager and connect to server endpoint as shown below. </p>
+
+<p><code>
+@ClientEndpoint
+public class WordgameClientEndpoint {</code></p>
+
+<pre><code>private static CountDownLatch latch;
+
+private Logger logger = Logger.getLogger(this.getClass().getName());
+
+@OnOpen
+public void onOpen(Session session) {
+    // same as above
+}
+
+@OnMessage
+public String onMessage(String message, Session session) {
+	// same as above
+}
+
+@OnClose
+public void onClose(Session session, CloseReason closeReason) {
+    logger.info(String.format("Session %s close because of %s", session.getId(), closeReason));
+    latch.countDown();
+}
+
+public static void main(String[] args) {
+    latch = new CountDownLatch(1);
+
+    ClientManager client = ClientManager.createClient();
+    try {
+        client.connectToServer(WordgameClientEndpoint.class, new URI("ws://localhost:8025/websockets/game"));
+        latch.await();
+
+    } catch (DeploymentException | URISyntaxException | InterruptedException e) {
+        throw new RuntimeException(e);
+    }
+} }
+</code></pre>
+
+<p>&lt;/code&gt;</p>
+
+<p>We used CountDownLatch to make sure that main thread does not exit after executing the code. The main thread waits till the time latch decrements the counter in onClose() method. Then program terminates. In the main() method we create instance of ClientManager which is then used to connect to @ServerEndpoint available at ws://localhost:8025/websockets/game.</p>
+
+<p>Run the Client as a Java application(ALT + SHIFT + X , J) and you will see logs as shown below.</p>
+
+<p><code>
+Jul 26, 2013 1:40:26 PM com.shekhar.wordgame.client.WordgameClientEndpoint onOpen
+INFO: Connected ... 95f58833-c168-4a5f-a580-085810b4dc5a
+Jul 26, 2013 1:40:26 PM com.shekhar.wordgame.client.WordgameClientEndpoint onMessage
+INFO: Received ....start
+</code></p>
+
+<p>Send any message like "hello world" and that will be echoed back to you as shown below.</p>
+
+<p><code>
+INFO: Received ....start
+hello world
+Jul 26, 2013 1:41:04 PM com.shekhar.wordgame.client.WordgameClientEndpoint onMessage
+INFO: Received ....hello world
+</code></p>
+
+<p>Send the "quit" message, and WebSocket connection will be closed.</p>
+
+<p><code>
+INFO: Received ....hello world
+quit
+Jul 26, 2013 1:42:23 PM com.shekhar.wordgame.client.WordgameClientEndpoint onClose
+INFO: Session 95f58833-c168-4a5f-a580-085810b4dc5a close because of CloseReason[1000,Game ended]
+</code></p>
+
+<h3 id="step-7--add-game-logic">Step 7 : Add Game Logic</h3>
+
+<p>Now we will add the game logic which will sent a scrambled word to client and on receiving an unscrambled word from client will check whether it is correct or not.
+Update the WordgameServerEndpoint code as shown below.</p>
+
+<p><code>
+package com.shekhar.wordgame.server;</code></p>
+
+<p>import java.io.IOException;
+import java.util.logging.Logger;</p>
+
+<p>import javax.websocket.CloseReason;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.CloseReason.CloseCodes;
+import javax.websocket.server.ServerEndpoint;</p>
+
+<p>@ServerEndpoint(value = "/game")
+public class WordgameServerEndpoint {</p>
+
+<pre><code>private Logger logger = Logger.getLogger(this.getClass().getName());
+
+@OnOpen
+public void onOpen(Session session) {
+    logger.info("Connected ... " + session.getId());
+}
+
+@OnMessage
+public String onMessage(String unscrambledWord, Session session) {
+    switch (unscrambledWord) {
+    case "start":
+        logger.info("Starting the game by sending first word");
+        String scrambledWord = WordRepository.getInstance().getRandomWord().getScrambledWord();
+        session.getUserProperties().put("scrambledWord", scrambledWord);
+        return scrambledWord;
+    case "quit":
+        logger.info("Quitting the game");
+        try {
+            session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "Game finished"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    String scrambledWord = (String) session.getUserProperties().get("scrambledWord");
+    return checkLastWordAndSendANewWord(scrambledWord, unscrambledWord, session);
+}
+
+@OnClose
+public void onClose(Session session, CloseReason closeReason) {
+    logger.info(String.format("Session %s closed because of %s", session.getId(), closeReason));
+}
+
+private String checkLastWordAndSendANewWord(String scrambledWord, String unscrambledWord, Session session) {
+    WordRepository repository = WordRepository.getInstance();
+    Word word = repository.getWord(scrambledWord);
+    
+    String nextScrambledWord = repository.getRandomWord().getScrambledWord();
+    
+    session.getUserProperties().put("scrambledWord", nextScrambledWord);
+    
+    String correctUnscrambledWord = word.getUnscrambbledWord();
+    
+    if (word == null || !correctUnscrambledWord.equals(unscrambledWord)) {
+        return String.format("You guessed it wrong. Correct answer %s. Try the next one .. %s",
+                correctUnscrambledWord, nextScrambledWord);
+    }
+    return String.format("You guessed it right. Try the next word ...  %s", nextScrambledWord);
+} }
+</code></pre>
+
+<p>&lt;/code&gt;</p>
+
+<p>Restart the server and client and enjoy the game.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>In this blog post we looked at how the JSR 356 WebSocket API can help us build realtime full duplex Java applications. JSR 356 WebSocket API is very simple and the annotation based programming model makes it very easy to build WebSocket applications. In the next blog post, we will look at <a href="http://undertow.io/">Undertow</a>, a flexible performant web server written in java from JBoss. </p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<ul>
+  <li><a href="https://www.openshift.com/app/account/new">Sign up for OpenShift Online</a> and try this out yourself</li>
+  <li>Get your own <a href="https://engage.redhat.com/forms/contact-sales-openshift">private Platform As a Service</a> (PaaS) by evaluating <a href="https://www.openshift.com/products/enterprise/try-enterprise">OpenShift Enterprise</a></li>
+  <li>Promote and show off your awesome app in the <a href="https://www.openshift.com/application-gallery">OpenShift Application Gallery</a> today.</li>
+</ul>
