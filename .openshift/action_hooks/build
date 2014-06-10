@@ -10,8 +10,8 @@ bundle install
 
 mkdir -p ${OPENSHIFT_DATA_DIR}gems
 
-export GEM_HOME=${OPENSHIFT_DATA_DIR}gems 
-export GEM_PATH=${OPENSHIFT_DATA_DIR}gems
+#export GEM_HOME=${OPENSHIFT_DATA_DIR}gems 
+#export GEM_PATH=${OPENSHIFT_DATA_DIR}gems
 
 echo "* Setting up environment"
 
@@ -26,13 +26,13 @@ then
 
 else
 
-  echo "  * Installing awestruct"
+  #echo "  * Installing awestruct"
 
-  gem install awestruct --no-ri --no-rdoc
+  #gem install awestruct --no-ri --no-rdoc
 
 fi
 
-export PATH=$GEM_PATH/bin:$PATH
+#export PATH=$GEM_PATH/bin:$PATH
 
 echo "* Generating site"
 
