@@ -1,0 +1,23 @@
+!!!5
+%html(lang='en')
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1, user-scalable=no", name: "viewport"}/
+    %title Dev Center
+    %link{href: "../../stylesheets/style.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/images.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/galleries.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/portfolio.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/page-nav.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/3dParty/colorbox/colorbox.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/alert-boxes.css", rel: "stylesheet", type: "text/css"}/
+    %link{href: "../../stylesheets/animations.css", rel: "stylesheet", type: "text/css"}/
+    / Fonts
+    %link{href: "http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic", rel: "stylesheet", type: "text/css"}/
+    / Fonts with Icons
+    %link{href: "../../stylesheets/3dParty/fontello/css/fontello.css", rel: "stylesheet"}/
+    / [if lte IE 8]
+      <script src="scripts/respond.min.js"></script>
+    = partial ('navbar.html.haml')  
+    ~ content
+    = partial ('footer.html.haml')

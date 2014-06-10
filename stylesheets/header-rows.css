@@ -1,0 +1,383 @@
+/*ony for one corner, use this variable several time for other corners*/
+.pi-section-header {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.pi-section-header img {
+  max-height: 100%;
+}
+.pi-section-header .pi-full-height {
+  vertical-align: top;
+}
+.pi-header-block {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+  float: left;
+  line-height: 1em;
+  vertical-align: top;
+  max-height: 100%;
+}
+.pi-header-block:first-child:not(.pi-pull-right) {
+  margin-left: 0;
+}
+.pi-header-block.pi-pull-right:first-child,
+.pi-header-block:not(.pi-pull-right) + .pi-pull-right {
+  margin-right: 0;
+}
+.pi-header-block a {
+  max-height: 100%;
+}
+.pi-header-block a:hover {
+  text-decoration: none;
+}
+.pi-bordered {
+  position: relative;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+.pi-bordered:before,
+.pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-bordered:before {
+  left: 0;
+}
+.pi-bordered:after {
+  right: 0;
+}
+.pi-bordered:hover:before,
+.pi-bordered:hover:after {
+  background: transparent;
+}
+.pi-bordered:before,
+.pi-bordered:after {
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  -o-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+.pi-header-block-logo a {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0;
+  border-bottom: 0;
+}
+.pi-header-block-logo .pi-has-bg {
+  -webkit-transition: background 0.2s ease-in-out 0s;
+  -moz-transition: background 0.2s ease-in-out 0s;
+  -ms-transition: background 0.2s ease-in-out 0s;
+  -o-transition: background 0.2s ease-in-out 0s;
+  transition: background 0.2s ease-in-out 0s;
+}
+.pi-header-block-logo img {
+  display: block;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  -o-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+.pi-header-block-logo .pi-center-vertically {
+  display: table;
+}
+.pi-header-block-logo .pi-center-vertically > span,
+.pi-header-block-logo .pi-center-vertically > a {
+  display: table-cell;
+  vertical-align: middle;
+}
+.pi-section-header-lg .pi-header-block-logo img {
+  max-height: 100px;
+}
+.pi-section-header-md .pi-header-block-logo img {
+  max-height: 70px;
+}
+.pi-section-header-sm .pi-header-block-logo img {
+  max-height: 48px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-header-block-logo img {
+  max-height: 70px;
+}
+.pi-header-block-txt {
+  position: relative;
+  line-height: 28px;
+  -webkit-transition: margin-top 0.2s ease-in-out 0s;
+  -moz-transition: margin-top 0.2s ease-in-out 0s;
+  -ms-transition: margin-top 0.2s ease-in-out 0s;
+  -o-transition: margin-top 0.2s ease-in-out 0s;
+  transition: margin-top 0.2s ease-in-out 0s;
+}
+.pi-header-block-txt a {
+  border-bottom: 1px solid transparent;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  -o-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+.pi-header-block-icon {
+  position: relative;
+  margin: -3px 6px 0 0;
+  font-size: 14px;
+}
+.pi-header-block-icon.pi-icon-circle,
+.pi-header-block-icon.pi-icon-square {
+  top: 0;
+  height: 28px;
+  width: 28px;
+  font-size: 14px;
+  line-height: 28px;
+  margin: 0 8px -9px 0;
+}
+.pi-section-header-sm {
+  min-height: 48px;
+  font-size: 14px;
+}
+.pi-section-header-sm .pi-big-font {
+  font-size: 16px;
+}
+.pi-section-header-sm .pi-bigger-font {
+  font-size: 18px;
+  font-weight: 300;
+}
+.pi-section-header-sm .pi-header-block-txt {
+  margin-top: 10px;
+}
+.pi-section-header-sm .pi-center-vertically > span,
+.pi-section-header-sm .pi-center-vertically > a {
+  height: 48px;
+}
+.pi-section-header-md {
+  min-height: 70px;
+  font-size: 14px;
+}
+.pi-section-header-md .pi-big-font {
+  font-size: 16px;
+}
+.pi-section-header-md .pi-bigger-font {
+  font-size: 18px;
+  font-weight: 300;
+}
+.pi-section-header-md .pi-header-block-txt {
+  margin-top: 21px;
+}
+.pi-section-header-md .pi-center-vertically > span,
+.pi-section-header-md .pi-center-vertically > a {
+  height: 70px;
+}
+.pi-section-header-lg {
+  min-height: 100px;
+  font-size: 14px;
+}
+.pi-section-header-lg .pi-big-font {
+  font-size: 16px;
+}
+.pi-section-header-lg .pi-bigger-font {
+  font-size: 18px;
+  font-weight: 300;
+}
+.pi-section-header-lg .pi-full-height > li > a {
+  line-height: 98px;
+}
+.pi-section-header-lg .pi-header-block-txt {
+  margin-top: 36px;
+}
+.pi-section-header-lg .pi-center-vertically > span,
+.pi-section-header-lg .pi-center-vertically > a {
+  height: 100px;
+}
+.pi-header-row-reduced .pi-section-header-lg {
+  min-height: 70px;
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  -moz-transition: all 0.2s ease-in-out 0s;
+  -ms-transition: all 0.2s ease-in-out 0s;
+  -o-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-full-height > li > a {
+  line-height: 70px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-header-block-txt {
+  margin-top: 21px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-header-block form {
+  margin-top: 16px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-header-block form .btn {
+  margin-top: 0;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-social-icons-big {
+  margin-top: 9px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-social-icons-small {
+  margin-top: 17px;
+}
+.pi-header-row-reduced .pi-section-header-lg .btn {
+  margin-top: 16px;
+}
+.pi-header-row-reduced .pi-section-header-lg .pi-center-vertically > span,
+.pi-header-row-reduced .pi-section-header-lg .pi-center-vertically > a {
+  height: 70px;
+}
+.pi-relative {
+  position: relative;
+  top: 0;
+}
+.pi-section-white .pi-header-block-logo .pi-has-bg {
+  background: #f9fafa;
+}
+.pi-section-white .pi-header-block-logo .pi-has-bg:hover {
+  background: #f3f4f5;
+}
+.pi-section-white .pi-header-block-logo .pi-bordered {
+  border-color: #e0e2e4;
+}
+.pi-section-white .pi-header-block-logo .pi-bordered:before,
+.pi-section-white .pi-header-block-logo .pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-section-white .pi-header-block-logo .pi-bordered:before {
+  left: 0;
+}
+.pi-section-white .pi-header-block-logo .pi-bordered:after {
+  right: 0;
+}
+.pi-section-white .pi-header-block-logo .pi-bordered:hover:before,
+.pi-section-white .pi-header-block-logo .pi-bordered:hover:after {
+  background: transparent;
+}
+.pi-section-grey .pi-header-block-logo .pi-has-bg {
+  background: #ffffff;
+}
+.pi-section-grey .pi-header-block-logo .pi-has-bg:hover {
+  background: #e9eaeb;
+}
+.pi-section-grey .pi-header-block-logo .pi-bordered {
+  border-color: #e0e2e4;
+}
+.pi-section-grey .pi-header-block-logo .pi-bordered:before,
+.pi-section-grey .pi-header-block-logo .pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-section-grey .pi-header-block-logo .pi-bordered:before {
+  left: 0;
+}
+.pi-section-grey .pi-header-block-logo .pi-bordered:after {
+  right: 0;
+}
+.pi-section-grey .pi-header-block-logo .pi-bordered:hover:before,
+.pi-section-grey .pi-header-block-logo .pi-bordered:hover:after {
+  background: transparent;
+}
+.pi-section-base .pi-header-block-logo .pi-has-bg {
+  background: #3c8cbd;
+}
+.pi-section-base .pi-header-block-logo .pi-has-bg:hover {
+  background: #3276b1;
+}
+.pi-section-base .pi-header-block-logo .pi-bordered {
+  border-color: #5196c4;
+}
+.pi-section-base .pi-header-block-logo .pi-bordered:before,
+.pi-section-base .pi-header-block-logo .pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-section-base .pi-header-block-logo .pi-bordered:before {
+  left: 0;
+}
+.pi-section-base .pi-header-block-logo .pi-bordered:after {
+  right: 0;
+}
+.pi-section-base .pi-header-block-logo .pi-bordered:hover:before,
+.pi-section-base .pi-header-block-logo .pi-bordered:hover:after {
+  background: transparent;
+}
+.pi-section-dark .pi-header-block-logo .pi-has-bg {
+  background: #383840;
+}
+.pi-section-dark .pi-header-block-logo .pi-has-bg:hover {
+  background: #222227;
+}
+.pi-section-dark .pi-header-block-logo .pi-bordered {
+  border-color: #41414a;
+}
+.pi-section-dark .pi-header-block-logo .pi-bordered:before,
+.pi-section-dark .pi-header-block-logo .pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-section-dark .pi-header-block-logo .pi-bordered:before {
+  left: 0;
+}
+.pi-section-dark .pi-header-block-logo .pi-bordered:after {
+  right: 0;
+}
+.pi-section-dark .pi-header-block-logo .pi-bordered:hover:before,
+.pi-section-dark .pi-header-block-logo .pi-bordered:hover:after {
+  background: transparent;
+}
+.pi-section-parallax .pi-header-block-logo .pi-has-bg {
+  background: #2b2b31;
+}
+.pi-section-parallax .pi-header-block-logo .pi-has-bg:hover {
+  background: #17171b;
+}
+.pi-section-parallax .pi-header-block-logo .pi-bordered {
+  border-color: #323239;
+}
+.pi-section-parallax .pi-header-block-logo .pi-bordered:before,
+.pi-section-parallax .pi-header-block-logo .pi-bordered:after {
+  display: block;
+  width: 1px;
+  height: 100%;
+  content: " ";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  background: transparent;
+}
+.pi-section-parallax .pi-header-block-logo .pi-bordered:before {
+  left: 0;
+}
+.pi-section-parallax .pi-header-block-logo .pi-bordered:after {
+  right: 0;
+}
+.pi-section-parallax .pi-header-block-logo .pi-bordered:hover:before,
+.pi-section-parallax .pi-header-block-logo .pi-bordered:hover:after {
+  background: transparent;
+}

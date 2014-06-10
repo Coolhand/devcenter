@@ -1,0 +1,206 @@
+---
+layout: base
+---
+/ - - - - - - - - - END SECTION - - - - - - - - -
+/ - - - - - - - - - SECTION - - - - - - - - -
+/ Breadcrumbs
+.pi-section-w.pi-border-bottom.pi-section-grey
+.pi-section.pi-titlebar.pi-breadcrumb-only
+  .pi-breadcrumb.pi-center-text-xs
+    %ul
+      %li
+        %a{href: "../../index.html"} Home
+      %li
+        %a{href: "/docs/Drupal"} Java
+/ End breadcrumbs
+/ - - - - - - - - - END SECTION - - - - - - - - -
+/ - - - - - - - - - SECTION - - - - - - - - -
+.pi-section-w.pi-section-white
+.pi-section.pi-padding-bottom-10
+  .pi-row
+    .pi-col-sm-9
+      / Post
+      .pi-row
+        / Post thumbnail
+        .pi-col-sm-2
+          .pi-img-w.pi-img-round-corners.pi-img-shadow
+            %a.pi-colorbox{href: "img_external/gallery/digital-photo-camera.jpg"}
+              %img{alt: "", src: "img_external/gallery/digital-photo-camera-sq.jpg"}/
+              .pi-img-overlay.pi-no-padding.pi-img-overlay-dark
+                .pi-caption-centered
+                  %div
+                    %span.pi-caption-icon.pi-caption-icon-small.pi-caption-scale.icon-search
+        / End post thumbnail
+        / Post content
+        - for java_post in site.java_posts  
+          .pi-col-sm-10
+            %h2.h3.pi-margin-top-minus-5
+              %a.pi-link-dark{:href=>java_post.url}= java_post.title
+            %ul.pi-meta
+              %li
+                %i.icon-user>
+                by
+                /TODO Figure out how to automatically assign author
+                %a= java_post.author
+              %li
+                %i.icon-clock>
+                = java_post.date.strftime( '%d %B %Y' )
+              %li
+                %i.icon-comment
+                %a{href: "#"} 2 Comments
+            %p
+              %a.btn.pi-btn-base{:href=>java_post.url}
+                Read
+        / End post content
+      / End post
+      %hr.pi-divider.pi-divider-dashed.pi-divider-big/
+      .pi-pagenav.pi-padding-bottom-40
+        %ul
+          %li
+            %a{href: "#"} Previous
+          %li
+            %a.pi-active{href: "#"} 1
+          %li
+            %a{href: "#"} 2
+          %li
+            %a{href: "#"} 3
+          %li
+            %a{href: "#"} ...
+          %li
+            %a{href: "#"} 5
+          %li
+            %a{href: "#"} Next
+    .pi-sidebar.pi-col-sm-3
+      / Search
+      .pi-sidebar-block.pi-padding-bottom-60
+        %h3.h6.pi-uppercase.pi-weight-700.pi-letter-spacing.pi-has-bg.pi-margin-bottom-20
+          Search
+        %form.pi-grouped-input.pi-pi-search-form-wide
+          %button.btn.pi-btn-base{type: "submit"}
+            %i.icon-search-2
+          .pi-input-inline
+            %input.form-control.pi-input-wide{placeholder: "e.g. Inspiration", type: "text"}/
+      / End search
+      / Categories
+      .pi-sidebar-block.pi-padding-bottom-40
+        %h3.h6.pi-uppercase.pi-weight-700.pi-letter-spacing.pi-has-bg.pi-margin-bottom-15
+          Top Categories
+        %ul.pi-list-with-icons.pi-list-icons-right-open
+          %li
+            %a{href: "#"} Cartridge Creation
+            (2)
+          %li
+            %a{href: "#"} PHP
+            (9)
+          %li
+            %a{href: "#"} JBoss
+            (9)
+          %li
+            %a{href: "#"} Ruby
+            (2)
+          %li
+            %a{href: "#"} MongoDB
+            (4)
+          %li
+            %a{href: "#"} Go
+            (4)
+      / End categories
+      / Flickr photos
+      .pi-sidebar-block.pi-padding-bottom-40
+        %h3.h6.pi-uppercase.pi-weight-700.pi-letter-spacing.pi-has-bg.pi-margin-bottom-20
+          Top Authors
+        .pi-gallery.pi-liquid-col-xs-3.pi-gallery-small-margins.colsWidthFix
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+          .pi-gallery-item
+            .pi-img-w.pi-img-round-corners.pi-img-shadow-light
+              %a{href: "#"}
+                %img{alt: "", src: "#{}"}/
+                %span.pi-img-overlay.pi-img-overlay-dark
+      / End flickr photos
+      / Tweets
+      .pi-sidebar-block.pi-padding-bottom-40
+        %h3.h6.pi-uppercase.pi-weight-700.pi-letter-spacing.pi-has-bg.pi-margin-bottom-20
+          Latest Tweets
+        %ul.pi-bullets-circle.pi-bullets-base.pi-bullets.pi-list-big-margins
+          -# %li
+          -#   %span.pi-bullet-icon
+          -#     %i.icon-twitter
+          -#   = succeed ":" do
+          -#     %a{href: "#"} @envato
+          -#   %a.pi-link-dark{href: "#"} goo.gl/5GlsEZ
+          -#   dolor sit amet
+          -#   %br/
+          -#   %span.pi-italic.pi-small-text.pi-text-opacity 14 hours ago
+          -# %li
+          -#   %span.pi-bullet-icon
+          -#     %i.icon-twitter
+          -#   = succeed ":Ut" do
+          -#     %a{href: "#"} @themeforest
+          -#   %a.pi-link-dark{href: "#"} goo.gl/6QKhAB
+          -#   exercitationem ullam corporis
+          -#   %br/
+          -#   %span.pi-italic.pi-small-text.pi-text-opacity 19 hours ago
+      / End tweets
+      / Testimonial
+      .pi-sidebar-block.pi-padding-bottom-40
+        %h3.h6.pi-uppercase.pi-weight-700.pi-letter-spacing.pi-has-bg.pi-margin-bottom-20
+          Latest Blogs
+        -# .pi-testimonial.pi-testimonial-author-with-icon
+        -#   .pi-testimonial-content.pi-testimonial-content-quotes
+        -#     %p Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus.
+        -#   .pi-testimonial-author.pi-clearfix
+        -#     %span.pi-icon-man
+        -#     %div
+        -#       %span.pi-testimonial-author-name
+        -#         %strong Mattias Nuffer
+        -#       %br/
+        -#       %span.pi-testimonial-author-company
+        -#         Executive Director
+        -#         %a{href: "#"} Company Inc.
+      / End testimonial
+/ - - - - - - - - - END SECTION - - - - - - - - -
+/ - - - - - - - - - SECTION - - - - - - - - -
+.pi-section-w.pi-shadow-inside-top.pi-section-base
+  .pi-texture{style: "background: url(../../stylesheets/Images/hexagon.png) repeat;"}
+  .pi-section
+    / Row
+    .pi-row
+      / Col 8
+      .pi-col-sm-8.pi-text-right.pi-center-text-sm
+        %p.lead-30.pi-text-white
+          Want to submit your own documentation?
+          -# %span.pi-weight-400
+      / End col 8
+      / Col 4
+      .pi-col-sm-4.pi-center-text-sm
+        %p
+          %a.btn.pi-btn-base-2.pi-btn-big{href: "https://github.com/Coolhand/devcenter"}
+            %i.icon-mail.pi-icon-left
+            Fork us on Github
+      / End col 4
+    / End row
+/ - - - - - - - - - END SECTION - - - - - - - - -

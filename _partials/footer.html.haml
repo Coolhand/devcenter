@@ -1,0 +1,152 @@
+/ Footer
+/ Widget area
+.pi-section-w.pi-border-bottom.pi-border-top-light.pi-section-dark
+  .pi-section.pi-padding-bottom-10
+    / Row
+    .pi-row
+      / Col 4
+      .pi-col-md-4.pi-padding-bottom-30
+        %h6.pi-margin-bottom-25.pi-weight-700.pi-uppercase.pi-letter-spacing
+          %a.pi-link-no-style{href: "#"} Latest Tweet
+        / Twitter
+        %ul.pi-bullets-circle.pi-bullets-base.pi-bullets.pi-list-big-margins
+          %li
+            %span.pi-bullet-icon
+              %i.icon-twitter
+            %a{href: "https://twitter.com/openshift"} @openshift:
+            Hear from the OpenShift team in this short hangout. Learn the latest about our platform, upcoming events, etc. bit.ly/1hK8lEm
+            %a{href: "bit.ly/1hK8lEm"} bit.ly/1hK8lEm
+            %br/
+            %span.pi-smaller-text.pi-italic.pi-text-opacity-50 Jun 9
+          %li
+            %span.pi-bullet-icon
+              %i.icon-twitter
+            %a{href: "https://twitter.com/openshift"} @openshift
+            Sequencing the Open Source DNA of the Modern Enterprise Cloud: 
+            %a{href: "http://t.co/ttXUbC6vEw"} http://t.co/ttXUbC6vEw
+            %br/
+            %span.pi-smaller-text.pi-italic.pi-text-opacity-50 04 Feb
+            %br/
+            %button.btn.pi-btn-dark.pi-btn-no-border.pi-btn-small.pi-margin-top-15
+              Follow @openshift
+        / End twitter
+      / End col 4
+      .pi-clearfix.pi-hidden-lg-only.pi-hidden-md-only
+      / Col 4
+      .pi-col-md-4.pi-col-sm-6.pi-padding-bottom-30{style: "background-image: url('img/map-base.png'); background-position: 50% 55px; background-repeat: no-repeat;"}
+        %h6.pi-margin-bottom-25.pi-weight-700.pi-uppercase.pi-letter-spacing
+          Contact Us
+        / Contact info
+        %ul.pi-list-with-icons.pi-list-big-margins
+          %li
+            %span.pi-bullet-icon
+              %i.icon-location
+            %strong Address:
+            100 East Davie St,
+            Raleigh, NC
+            = succeed "New" do
+              %br/
+          %li
+            %span.pi-bullet-icon
+              %i.icon-phone
+            %strong Phone:
+            (800) 451-8679
+          %li
+            %span.pi-bullet-icon
+              %i.icon-mail
+            %strong Email:
+            %a{href: "mailto:openshift-help@redhat.com"} openshift-help@redhat.com
+          %li
+            %span.pi-bullet-icon
+              %i.icon-clock
+            Monday - Friday:
+            %strong 9:00 am - 5:00 pm
+            %br/
+            Saturday - Sunday:
+            %strong Closed
+        / End contact info
+      / End col 4
+      / Col 4
+      .pi-col-md-4.pi-col-sm-6.pi-padding-bottom-30
+        %h6.pi-margin-bottom-25.pi-weight-700.pi-uppercase.pi-letter-spacing
+          Say Hey
+        / Contact form
+        %form.pi-footer-form{action: "handlers/formFooter.php", role: "form"}
+          .pi-error-container
+          .pi-row.pi-grid-small-margins
+            .pi-col-2xs-6
+              .form-group
+                .pi-input-with-icon
+                  .pi-input-icon
+                    %i.icon-user
+                  %input#exampleInputName.form-control.form-control-name{placeholder: "Name"}/
+            .pi-col-2xs-6
+              .form-group
+                .pi-input-with-icon
+                  .pi-input-icon
+                    %i.icon-mail-alt
+                  %input#exampleInputEmail.form-control.form-control-email{placeholder: "Email", type: "email"}/
+          .form-group
+            .pi-input-with-icon
+              .pi-input-icon
+                %i.icon-pencil
+              %textarea#exampleInputMessage.form-control.form-control-comments{placeholder: "Message", rows: "3"}
+          %p
+            %button.btn.pi-btn-base.pi-btn-no-border{type: "submit"} Send
+        / End contact form
+      / End col 4
+    / End row
+/ End widget area
+/ Copyright area
+.pi-section-w.pi-section-header-w.pi-section-dark.pi-border-top-light.pi-border-bottom-strong-base.pi-section-header-lg-w
+  .pi-section.pi-section-header.pi-section-header-lg.pi-center-text-2xs.pi-clearfix
+    / Social icons
+    .pi-header-block.pi-pull-right.pi-hidden-2xs
+      %ul.pi-social-icons-simple.pi-small.clearFix
+        %li
+          %a.pi-social-icon-facebook{href: "#"}
+            %i.icon-facebook
+        %li
+          %a.pi-social-icon-twitter{href: "#"}
+            %i.icon-twitter
+        %li
+          %a.pi-social-icon-dribbble{href: "#"}
+            %i.icon-dribbble-1
+        %li
+          %a.pi-social-icon-tumblr{href: "#"}
+            %i.icon-tumblr
+        %li
+          %a.pi-social-icon-vimeo{href: "#"}
+            %i.icon-vimeo
+        %li
+          %a.pi-social-icon-rss{href: "#"}
+            %i.icon-rss
+    / End social icons
+    / Footer logo
+    .pi-header-block.pi-header-block-logo.pi-header-block-bordered
+      -# %a{href: "#"}
+      -#   %img{alt: "", src: "img/logo-opacity-dark.png"}/
+    / End footer logo
+    / Text
+    / End text
+/ End copyright area
+/ End footer
+%script{src: "../../stylesheets/3dParty/jquery-1.11.0.min.js"}
+%script{src: "../../scripts/pi.helpers.js"}
+%script{src: "../../scripts/pi.boundManager.js"}
+%script{src: "../../scripts/pi.columnFix.js"}
+%script{src: "../../scripts/pi.init.caption.js"}
+%script{src: "../../stylesheets/3dParty/isotope/isotope.js"}
+%script{src: "../../scripts/pi.init.isotope.js"}
+%script{src: "../../stylesheets/3dParty/colorbox/jquery.colorbox-min.js"}
+%script{src: "../../scripts/pi.init.colorbox.js"}
+%script{src: "../../scripts/pi.init.social.js"}
+%script{src: "../../scripts/pi.ddMenu.js"}
+%script{src: "../../scripts/pi.init.removeLastElMargin.js"}
+%script{src: "../../scripts/pi.fixedHeader.js"}
+%script{src: "../../scripts/pi.mobileMenu.js"}
+%script{src: "../../scripts/pi.init.submitFormFooter.js"}
+%script{src: "../../scripts/pi.detectTransition.js"}
+%script{src: "../../scripts/pi.alert.js"}
+%script{src: "../../scripts/pi.init.formsBlurClasses.js"}
+%script{src: "../../scripts/pi.init.placeholder.js"}
