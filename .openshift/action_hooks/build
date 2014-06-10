@@ -15,22 +15,22 @@ mkdir -p ${OPENSHIFT_DATA_DIR}gems
 
 echo "* Setting up environment"
 
-if gem list | grep awestruct
-then
+#if gem list | grep awestruct
+#then
 
-  echo "  * Awestruct previously installed"
+  #echo "  * Awestruct previously installed"
 
   #echo "  * Check for new Awestruct version"
 
   #gem update --no-ri --no-rdoc
 
-else
+#else
 
   #echo "  * Installing awestruct"
 
   #gem install awestruct --no-ri --no-rdoc
 
-fi
+f#i
 
 #export PATH=$GEM_PATH/bin:$PATH
 
