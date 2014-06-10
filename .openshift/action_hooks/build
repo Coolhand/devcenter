@@ -6,12 +6,12 @@
 
 cd ${OPENSHIFT_REPO_DIR}lib
 
+bundle install
+
 mkdir -p ${OPENSHIFT_DATA_DIR}gems
 
 export GEM_HOME=${OPENSHIFT_DATA_DIR}gems 
 export GEM_PATH=${OPENSHIFT_DATA_DIR}gems
-
-bundle install 
 
 echo "* Setting up environment"
 
