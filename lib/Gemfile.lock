@@ -92,4 +92,5 @@ DEPENDENCIES
   awestruct (~> 0.5.3)
   kramdown (>= 0.14.2)
   redcarpet
+  tilt
   webrick (~> 1.3.1)
