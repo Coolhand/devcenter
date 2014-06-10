@@ -240,6 +240,12 @@ hr {
 .pi-padding-top-bottom-170 {
   padding-bottom: 170px !important;
 }
+
+.pi-padding-bottom-600,
+.pi-padding-top-bottom-600 {
+  padding-bottom: 600px !important;
+}
+
 .pi-no-border {
   border: 0 !important;
 }
