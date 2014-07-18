@@ -30,7 +30,7 @@ echo "* Setting up environment"
 
   #gem install awestruct --no-ri --no-rdoc
 
-f#i
+#fi
 
 #export PATH=$GEM_PATH/bin:$PATH
 
